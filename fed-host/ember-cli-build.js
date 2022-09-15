@@ -19,7 +19,20 @@ module.exports = function (defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
+  const ModuleFederationPlugin =
+    require('webpack').container.ModuleFederationPlugin;
 
   const { Webpack } = require('@embroider/webpack');
-  return require('@embroider/compat').compatBuild(app, Webpack, {});
+  return require('@embroider/compat').compatBuild(app, Webpack, {
+    plugins: [
+      new ModuleFederationPlugin({
+        name: 'consumer',
+        filename: 'remoteEntry.js',
+        remotes: {
+          core: 'core@http://localhost:4405/remoteEntry.js',
+        },
+        shared: require('./package.json').dependencies,
+      }),
+    ],
+  });
 };
