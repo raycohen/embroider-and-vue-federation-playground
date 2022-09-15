@@ -29,7 +29,7 @@ module.exports = function (defaults) {
         name: 'consumer',
         filename: 'remoteEntry.js',
         remotes: {
-          core: 'core@http://localhost:4405/remoteEntry.js',
+          core: 'core@http://localhost:8080/remoteEntry.js',
         },
         shared: require('./package.json').dependencies,
       }),
