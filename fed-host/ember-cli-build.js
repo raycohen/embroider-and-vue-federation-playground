@@ -24,15 +24,19 @@ module.exports = function (defaults) {
 
   const { Webpack } = require('@embroider/webpack');
   return require('@embroider/compat').compatBuild(app, Webpack, {
-    plugins: [
-      new ModuleFederationPlugin({
-        name: 'consumer',
-        filename: 'remoteEntry.js',
-        remotes: {
-          core: 'core@http://localhost:8080/remoteEntry.js',
-        },
-        shared: require('./package.json').dependencies,
-      }),
-    ],
+    packagerOptions: {
+      webpackConfig: {
+        plugins: [
+          new ModuleFederationPlugin({
+            name: 'consumer',
+            filename: 'index.html',
+            remotes: {
+              core: 'core@http://localhost:8080/remoteEntry.js',
+            },
+            shared: require('./package.json').dependencies,
+          }),
+        ],
+      },
+    },
   });
 };
